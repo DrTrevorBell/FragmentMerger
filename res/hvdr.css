@@ -1,0 +1,128 @@
+body {
+	margin: 0;
+	padding: 5px;
+	background: white;
+}
+
+h1 {
+	padding: 12px;
+	margin: 0;
+	background-color: lightblue;
+	text-align: center;
+	color: black;
+	border-top-style: double;
+}
+
+h2 {
+	padding: 12px;
+	margin: 0;
+	background-color: #ffff99;
+	color: black;
+	border-top-style: solid;
+	border-bottom-style: solid;
+	text-align: center;
+}
+
+h3 {
+	font-style: italic;
+	font-weight: bold;
+}
+
+div.usage {
+	font-style: normal;
+        color: #009;
+	background: #efe;
+	border: 1px dashed #060;
+	padding: 12px;
+	margin-left: 2%;
+	margin-right: 2%;
+	margin-top: 12px;
+	margin-bottom: 12px;
+}
+
+em { text-decoration: none; font-weight: bold; font-style: italic; }
+
+span.em { text-decoration: none; font-weight: bold; font-style:italic; color: blue; font-family:monospace; }
+
+dt { font-weight: bold; }
+
+h5 {
+        background-color: red;
+        color: yellow;
+        font-family: monospace;
+}
+
+h6 {
+	font-size: 8px;
+	color: gray;
+	text-align:center;
+        font-family: monospace;
+}
+
+div.note {
+	background-color: lightblue;
+	text-align: center;
+	font-size: small;
+	font-style: italic;
+	padding-bottom: 12px;
+}
+
+p.compact {
+	padding: 1px;
+	margin: 1px;
+}
+
+table.display {
+	border-style: solid;
+	border-collapse: collapse;
+	border-width: 1px;
+	border-color: gray;
+	border-spacing: 5px;
+}
+
+table.display td {
+	border: solid 1px gray
+}
+
+table.display th {
+	border: solid 1px gray
+}
+
+.dotted_green { color:#009; background:#efe; border:1px dashed #060; padding:10px; margin:50px; }
+.dotted_red   { color:darkred; font-size:12px; font-family:monospace; text-align:center; font-weight:bold; background:#fee; border:1px dashed #900; padding:12px; margin-left:10%; margin-right:10%; }
+.dotted_blue  { color:#009; background:#eef; border:1px dashed #009; padding:05px; margin:20px; }
+
+.textborder { border: 1px solid #000000; }
+
+a:link
+{
+color:black;
+text-decoration:none;
+border-top-style:none;
+border-right-style:none;
+border-bottom-style:dotted;
+border-left-style:none;
+border-width:1px;
+}
+
+a:visited
+{
+color:black;
+text-decoration:none;
+border-width:2px;
+}
+
+a:hover
+{
+color:black;
+text-decoration:none;
+border-top-style:solid;
+border-right-style:none;
+border-bottom-style:solid;
+border-left-style:none;
+border-width:2px;
+}
+
+a:active
+{
+}

@@ -1,0 +1,51 @@
+<!DOCTYPE html
+	PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+	 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US" xml:lang="en-US">
+<head>
+<title>HVDRP Fragment Merger Tool: Slide Tutorial</title>
+<link rel="stylesheet" type="text/css" href="/res/hvdr.css"/>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"/>
+<style type="text/css">
+.hidden { visibility: hidden; }
+.unhidden { visibility: visible; }
+td { text-align : left; }
+td.shade1 { background: lightblue; text-align: center; font-weight: bold; }
+td.shade2 { background: #AAFFAA; }
+td.shade3 { background: pink; }
+fieldset { width: 95%; }
+input.aminoacid1 { text-align:center; background:lightblue; color:darkslategrey; font-weight:bold; }
+input.aminoacid2 { text-align:center; background:#ffff99; color:darkslategrey; font-weight:bold; }
+input.nucleotide { text-align:center; }
+div.instructions { font-family:monospace; }
+span.compare { color:blue; }
+span.tt { color:black; background:#DDFFDD; font-family:monospace; }
+ul.samplelist { font-family:monospace; color:blue; }
+.sample { font-family: monospace; color:blue; }
+.mono { font-family: monospace; font-weight: bold; }
+a:focus { outline: 0; }
+em.i { font-style:oblique; font-weight:normal; text-decoration:none; }
+em.b { font-style:normal; font-weight:bold; text-decoration:none; }
+legend { font-weight:bold; padding:0.2em 0.5em; border:1px solid green; color:green; font-size:120%; font-family:monospace; background:lightgreen; }
+</style>
+</head>
+<body>
+<h1>HVDR Online Tools</h1>
+<div class="note">Hepatitis Virus Diversity Research <a href="http://www.wits.ac.za/health/hvdrp">Programme</a> and Wits <a href="http://www.bioinf.wits.ac.za">Bioinformatics</a><br>University of the Witwatersrand</div>
+<h2><img src="/res/fm.png" style="vertical-align:middle">Fragment Merger Tool</h2>
+
+<br>
+<fieldset>
+<legend>Slide Tutorial</legend>
+
+When merging fragments which constitute a full-length circular genome (such as a viral genome), it is likely that the final merged sequence will be in the correct orientation. For example, the hepatitis B virus (HBV) genome is numbered starting from 1 according to the position of the <i>EcoR</i>1 restriction site. Full length HBV sequences created with the tool will not start from this co-ordinate, as the sequence data will run from the position of the sequencing primer which is specified as the first fragment.<br><br>
+
+If values are provided for the optional pair of parameters named "Slide Motif" and "Slide Position", the tool will attempt to slide the final merged sequence such that the slide motif specified is places at the sequence position specified. If fragments constituting a full-length HBV sequence are provided, the <i>EcoR</i>1 motif could be specified for the "slide motif" with a "slide position" value of 1. Alternately, another highly-conserved motif could be specified, such as the "ATAGGA" motif found at position 1750.<br><br>
+
+Although slide paremeters can be specified for non-full-length merges (and the tool will slide the sequence accordingly if possible), this typically would not be appropriate, as sliding linear fragments does not make sense biologically.
+
+</fieldset>
+<br>
+</body>
+</html>
+

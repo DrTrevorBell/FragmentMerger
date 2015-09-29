@@ -1,0 +1,499 @@
+<!DOCTYPE html
+	PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+	 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US" xml:lang="en-US">
+<head>
+<title>HVDR Fragment Merger</title>
+<link rel="stylesheet" type="text/css" href="/res/hvdr.css"/>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"/>
+<style type="text/css">
+.hidden { visibility: hidden; }
+.unhidden { visibility: visible; }
+legend { font-weight:bold; padding:0.2em 0.5em; border:1px solid green; color:green; font-size:120%; font-family:monospace; background:white; }
+</style>
+
+</style>
+<script type="text/javascript">
+function checkform()
+{
+	if (document.theform.fragmentfile1.value.length < 1 || document.theform.fragmentfile2.value.length < 1)
+	{
+		alert('Specify at least the first two fragments.');
+		return false;
+	}
+	else
+	{
+		return true;
+	}
+}
+
+function resetform()
+{
+	if (confirm("Reset all form fields?"))
+	{
+		for (i=1;i<=24;i++)
+		{
+			var item = document.getElementById('divID'+i);
+			item.className='unhidden';
+		}
+		window.theform.reset();
+	}
+}
+</script>
+<noscript>
+<div class="dotted_red" style="border-width:1.5px; color:darkred; font-size:12px; font-family:monospace;" align="center">
+This site works better with JavaScript enabled. It is recommended that you enable JavaScript and <a href="">reload</a> the page.
+</div>
+</noscript>
+</head>
+<body>
+
+<h1>
+<!-- <img src="/res/hvdrlogo.gif" style="vertical-align:middle" width="64px"> -->
+HVDR Online Tools</h1>
+<div class="note">Hepatitis Virus Diversity Research Programme, University of the Witwatersrand</div>
+<h2><img src="/res/fm.png" style="vertical-align:middle"> Fragment Merger Tool <img src="/res/fm.png" style="vertical-align:middle"></h2>
+<h3>Usage</h3>
+<div class="usage">
+<p>
+The Fragment Merger Tool produces a single (merged) sequence from two to twelve overlapping input fragments. These fragments can be chromatograms (ABIF files in .ab1 format) or FASTA files, or a mixture of both. Chromatograms will be trimmed according to parameters specified for each file. FASTA files will not be trimmed. After the input files have been processed, the <a href="http://emboss.sourceforge.net/">EMBOSS</a> <em>merger</em> tool will be used sequentially to merge the fragments.
+</p>
+<p>
+Typical usage could be to include previously edited and curated sequence data in FASTA format. Fragment files (chromatograms and/or FASTA files) are specified <em>in the order in which the fragments should be merged</em>. Fragments between which no overlap is found are simply concatenated.
+</p>
+<p>
+It is strongly recommended that the resulting sequence be checked carefully and aligned against a known reference sequence before any further analysis is undertaken. The tool does not detect or remove any vector-specific or other primer sequences in any of the input files. The tool does not disambiguate ambiguous ("wobble") base calls in chromatogram input files.
+</p>
+</div>
+<h3>Parameters</h3>
+<div class="usage">
+<p>
+Chromatograms are trimmed according to the values specified for the "Trim Window" (TrW) and the "Trim Threshold" (TrTh). A window of size "TrW" is slid over the sequence data from both ends independantly, one base at a time, until all of the bases within the window show a quality score of at least "TrTh". The sequence is then trimmed such that it starts and ends with the data within each window. These parameters are only applicable when a chromatogram is specified as an input file.
+</p>
+<p>
+The "Short Amplicon Warning Length" specifies the cut-off length (number of bases) below which a trimmed sequence will be considered "short". Such sequences are flagged on the output screen but are included in the merge process. The "Trimmed Length Threshold" specifies the minimum percentage to which a sequence can be trimmed before considering it unusable. Unusable sequences are excluded from the merge.
+</p>
+<p>
+"Rev" specifies that the sequence should be reversed and "Comp" specifies that the sequence should be complimented. These parameters may be specified for either chromatogram or FASTA input files.
+</p>
+</div>
+<h3>Specify Input Files and Parameters</h3>
+
+<div class="usage">
+<form method="post" action="/cgi-bin/fragmentmerger.cgi" enctype="multipart/form-data" onSubmit="return checkform();" name="theform">
+<table>
+
+<tr><th align="left">Fragment</th><th align="left">Filename</th><th align="left">Type</th><th>TrW</th><th>TrTh</th><th>Rev</th><th>Comp</th></tr>
+
+<tr>
+<td><div id="test1" name="test1">Fragment 01</div></td>
+<td>
+<input type="file" name="fragmentfile1" id="fragmentfile1" onchange="javascript:checkFile(1,1,2);">
+</td>
+<td>
+<select id="type1" name="type1" onchange="javascript:ShowDiv(1,2);">
+<option value="ABIF">Chromatogram</option>
+<option value="FASTA">FASTA</option>
+</select>
+</td>
+<td>
+<div id="divID1" class="unhidden">
+<input type="text" maxlength="3" size="3" name="tw1" value="10" title="Trim Window">
+</div>
+</td>
+<td>
+<div id="divID2" class="unhidden">
+<input type="text" maxlength="3" size="3" name="tt1" value="20" title="Trim Threshold">
+</div>
+</td>
+<td align="center"><input type="checkbox" name="rev1" title="Select to reverse the sequence"></td><td align="center"><input type="checkbox" name="comp1" title="Select to complement the sequence"></td>
+</tr>
+
+<tr>
+<td>Fragment 02</td>
+<td>
+<input type="file" name="fragmentfile2" id="fragmentfile2" onchange="javascript:checkFile(2,3,4);">
+</td>
+<td>
+<select id="type2" name="type2" onchange="javascript:ShowDiv(3,4);">
+<option value="ABIF">Chromatogram</option>
+<option value="FASTA">FASTA</option>
+</select>
+</td>
+<td>
+<div id="divID3" class="unhidden">
+<input type="text" maxlength="3" size="3" name="tw2" value="10" title="Trim Window">
+</div>
+</td>
+<td>
+<div id="divID4" class="unhidden">
+<input type="text" maxlength="3" size="3" name="tt2" value="20" title="Trim Threshold">
+</div>
+</td>
+<td align="center"><input type="checkbox" name="rev2" title="Select to reverse the sequence"></td><td align="center"><input type="checkbox" name="comp2" title="Select to complement the sequence"></td>
+</tr>
+
+<tr>
+<td>Fragment 03</td>
+<td>
+<input type="file" name="fragmentfile3" id="fragmentfile3" onchange="javascript:checkFile(3,5,6);">
+</td>
+<td>
+<select id="type3" name="type3" onchange="javascript:ShowDiv(5,6);">
+<option value="ABIF">Chromatogram</option>
+<option value="FASTA">FASTA</option>
+</select>
+</td>
+<td>
+<div id="divID5" class="unhidden">
+<input type="text" maxlength="3" size="3" name="tw3" value="10" title="Trim Window">
+</div>
+</td>
+<td>
+<div id="divID6" class="unhidden">
+<input type="text" maxlength="3" size="3" name="tt3" value="20" title="Trim Threshold">
+</div>
+</td>
+<td align="center"><input type="checkbox" name="rev3" title="Select to reverse the sequence"></td><td align="center"><input type="checkbox" name="comp3" title="Select to complement the sequence"></td>
+</tr>
+
+<tr>
+<td>Fragment 04</td>
+<td>
+<input type="file" name="fragmentfile4" id="fragmentfile4" onchange="javascript:checkFile(4,7,8);">
+</td>
+<td>
+<select id="type4" name="type4" onchange="javascript:ShowDiv(7,8);">
+<option value="ABIF">Chromatogram</option>
+<option value="FASTA">FASTA</option>
+</select>
+</td>
+<td>
+<div id="divID7" class="unhidden">
+<input type="text" maxlength="3" size="3" name="tw4" value="10" title="Trim Window">
+</div>
+</td>
+<td>
+<div id="divID8" class="unhidden">
+<input type="text" maxlength="3" size="3" name="tt4" value="20" title="Trim Threshold">
+</div>
+</td>
+<td align="center"><input type="checkbox" name="rev4" title="Select to reverse the sequence"></td><td align="center"><input type="checkbox" name="comp4" title="Select to complement the sequence"></td>
+</tr>
+
+<tr>
+<td>Fragment 05</td>
+<td>
+<input type="file" name="fragmentfile5" id="fragmentfile5" onchange="javascript:checkFile(5,9,10);">
+</td>
+<td>
+<select id="type5" name="type5" onchange="javascript:ShowDiv(9,10);">
+<option value="ABIF">Chromatogram</option>
+<option value="FASTA">FASTA</option>
+</select>
+</td>
+<td>
+<div id="divID9" class="unhidden">
+<input type="text" maxlength="3" size="3" name="tw5" value="10" title="Trim Window">
+</div>
+</td>
+<td>
+<div id="divID10" class="unhidden">
+<input type="text" maxlength="3" size="3" name="tt5" value="20" title="Trim Threshold">
+</div>
+</td>
+<td align="center"><input type="checkbox" name="rev5" title="Select to reverse the sequence"></td><td align="center"><input type="checkbox" name="comp5" title="Select to complement the sequence"></td>
+</tr>
+
+<tr>
+<td>Fragment 06</td>
+<td>
+<input type="file" name="fragmentfile6" id="fragmentfile6" onchange="javascript:checkFile(6,11,12);">
+</td>
+<td>
+<select id="type6" name="type6" onchange="javascript:ShowDiv(11,12);">
+<option value="ABIF">Chromatogram</option>
+<option value="FASTA">FASTA</option>
+</select>
+</td>
+<td>
+<div id="divID11" class="unhidden">
+<input type="text" maxlength="3" size="3" name="tw6" value="10" title="Trim Window">
+</div>
+</td>
+<td>
+<div id="divID12" class="unhidden">
+<input type="text" maxlength="3" size="3" name="tt6" value="20" title="Trim Threshold">
+</div>
+</td>
+<td align="center"><input type="checkbox" name="rev6" title="Select to reverse the sequence"></td><td align="center"><input type="checkbox" name="comp6" title="Select to complement the sequence"></td>
+</tr>
+
+<tr>
+<td>Fragment 07</td>
+<td>
+<input type="file" name="fragmentfile7" id="fragmentfile7" onchange="javascript:checkFile(7,13,14);">
+</td>
+<td>
+<select id="type7" name="type7" onchange="javascript:ShowDiv(13,14);">
+<option value="ABIF">Chromatogram</option>
+<option value="FASTA">FASTA</option>
+</select>
+</td>
+<td>
+<div id="divID13" class="unhidden">
+<input type="text" maxlength="3" size="3" name="tw7" value="10" title="Trim Window">
+</div>
+</td>
+<td>
+<div id="divID14" class="unhidden">
+<input type="text" maxlength="3" size="3" name="tt7" value="20" title="Trim Threshold">
+</div>
+</td>
+<td align="center"><input type="checkbox" name="rev7" title="Select to reverse the sequence"></td><td align="center"><input type="checkbox" name="comp7" title="Select to complement the sequence"></td>
+</tr>
+
+<tr>
+<td>Fragment 08</td>
+<td>
+<input type="file" name="fragmentfile8" id="fragmentfile8" onchange="javascript:checkFile(8,15,16);">
+</td>
+<td>
+<select id="type8" name="type8" onchange="javascript:ShowDiv(15,16);">
+<option value="ABIF">Chromatogram</option>
+<option value="FASTA">FASTA</option>
+</select>
+</td>
+<td>
+<div id="divID15" class="unhidden">
+<input type="text" maxlength="3" size="3" name="tw8" value="10" title="Trim Window">
+</div>
+</td>
+<td>
+<div id="divID16" class="unhidden">
+<input type="text" maxlength="3" size="3" name="tt8" value="20" title="Trim Threshold">
+</div>
+</td>
+<td align="center"><input type="checkbox" name="rev8" title="Select to reverse the sequence"></td><td align="center"><input type="checkbox" name="comp8" title="Select to complement the sequence"></td>
+</tr>
+
+<tr>
+<td>Fragment 09</td>
+<td>
+<input type="file" name="fragmentfile9" id="fragmentfile9" onchange="javascript:checkFile(9,17,18);">
+</td>
+<td>
+<select id="type9" name="type9" onchange="javascript:ShowDiv(17,18);">
+<option value="ABIF">Chromatogram</option>
+<option value="FASTA">FASTA</option>
+</select>
+</td>
+<td>
+<div id="divID17" class="unhidden">
+<input type="text" maxlength="3" size="3" name="tw9" value="10" title="Trim Window">
+</div>
+</td>
+<td>
+<div id="divID18" class="unhidden">
+<input type="text" maxlength="3" size="3" name="tt9" value="20" title="Trim Threshold">
+</div>
+</td>
+<td align="center"><input type="checkbox" name="rev9" title="Select to reverse the sequence"></td><td align="center"><input type="checkbox" name="comp9" title="Select to complement the sequence"></td>
+</tr>
+
+<tr>
+<td>Fragment 10</td>
+<td>
+<input type="file" name="fragmentfile10" id="fragmentfile10" onchange="javascript:checkFile(10,19,20);">
+</td>
+<td>
+<select id="type10" name="type10" onchange="javascript:ShowDiv(19,20);">
+<option value="ABIF">Chromatogram</option>
+<option value="FASTA">FASTA</option>
+</select>
+</td>
+<td>
+<div id="divID19" class="unhidden">
+<input type="text" maxlength="3" size="3" name="tw10" value="10" title="Trim Window">
+</div>
+</td>
+<td>
+<div id="divID20" class="unhidden">
+<input type="text" maxlength="3" size="3" name="tt10" value="20" title="Trim Threshold">
+</div>
+</td>
+<td align="center"><input type="checkbox" name="rev10" title="Select to reverse the sequence"></td><td align="center"><input type="checkbox" name="comp10" title="Select to complement the sequence"></td>
+</tr>
+
+<tr>
+<td>Fragment 11</td>
+<td>
+<input type="file" name="fragmentfile11" id="fragmentfile11" onchange="javascript:checkFile(11,21,22);">
+</td>
+<td>
+<select id="type11" name="type11" onchange="javascript:ShowDiv(21,22);">
+<option value="ABIF">Chromatogram</option>
+<option value="FASTA">FASTA</option>
+</select>
+</td>
+<td>
+<div id="divID21" class="unhidden">
+<input type="text" maxlength="3" size="3" name="tw11" value="10" title="Trim Window">
+</div>
+</td>
+<td>
+<div id="divID22" class="unhidden">
+<input type="text" maxlength="3" size="3" name="tt11" value="20" title="Trim Threshold">
+</div>
+</td>
+<td align="center"><input type="checkbox" name="rev11" title="Select to reverse the sequence"></td><td align="center"><input type="checkbox" name="comp11" title="Select to complement the sequence"></td>
+</tr>
+
+<tr>
+<td>Fragment 12</td>
+<td>
+<input type="file" name="fragmentfile12" id="fragmentfile12" onchange="javascript:checkFile(12,23,24);">
+</td>
+<td>
+<select id="type12" name="type12" onchange="javascript:ShowDiv(23,24);">
+<option value="ABIF">Chromatogram</option>
+<option value="FASTA">FASTA</option>
+</select>
+</td>
+<td>
+<div id="divID23" class="unhidden">
+<input type="text" maxlength="3" size="3" name="tw12" value="10" title="Trim Window">
+</div>
+</td>
+<td>
+<div id="divID24" class="unhidden">
+<input type="text" maxlength="3" size="3" name="tt12" value="20" title="Trim Threshold">
+</div>
+</td>
+<td align="center"><input type="checkbox" name="rev12" title="Select to reverse the sequence"></td><td align="center"><input type="checkbox" name="comp12" title="Select to complement the sequence"></td>
+</tr>
+
+
+<script type="text/javascript">
+function ShowDiv(N1,N2)
+{
+	var item = document.getElementById('divID'+N1);
+	if (item)
+	{
+		item.className=(item.className=='hidden') ? 'unhidden' : 'hidden';
+	}
+	var item = document.getElementById('divID'+N2);
+	if (item)
+	{
+		item.className=(item.className=='hidden') ? 'unhidden' : 'hidden';
+	}
+}
+
+function checkFile(f, N1, N2)
+{
+	var filename = document.getElementById('fragmentfile'+f).value;
+	var dot = filename.indexOf('.');
+	if (dot != -1)
+	{
+		var extension = filename.substring(dot+1, filename.length).toLowerCase();
+		if (extension == 'fasta' || extension == 'fas' || extension == 'aa')
+		{
+			var drop = document.getElementById('type'+f);
+			drop[1].selected = '1';
+
+			var item = document.getElementById('divID'+N1);
+			if (item)
+			{
+				item.className='hidden';
+			}
+			var item = document.getElementById('divID'+N2);
+			if (item)
+			{
+				item.className='hidden';
+			}
+		}
+		else if (extension == 'ab1' || extension == 'abi')
+		{
+			var drop = document.getElementById('type'+f);
+			drop[0].selected = '1';
+
+			var item = document.getElementById('divID'+N1);
+			if (item)
+			{
+				item.className='unhidden';
+			}
+			var item = document.getElementById('divID'+N2);
+			if (item)
+			{
+				item.className='unhidden';
+			}
+		}
+	}
+}
+</script>
+
+</table>
+
+<br>
+<table>
+<tr><td>Short Amplicon Warning Length:</td>
+<td><input type="text" name="shortamplicon" value="200" size="4"></td>
+<td>bases</td></tr>
+<tr><td>Trimmed Length Threshold:</td>
+<td><input type="text" name="trimmedlengththreshold" value="50" size="4"></td>
+<td>%</td></tr>
+</table>
+<br>
+<table>
+<tr><td>Merged Sequence FASTA ID:</td>
+<td><input type="text" name="mergedID" id="mergedID" value="" size="32"></td>
+</tr>
+</table>
+<br>
+<fieldset style="background: lightgreen;">
+<legend>Full-length sequence sliding parameters</legend>
+<table>
+<tr><td>Slide motif</td>
+<td><input type="text" name="slideMotif" id="slideMotif" title="The motif to place at the specified position"></td>
+<td></td></tr>
+<tr><td>Slide position</td>
+<td><input type="text" name="slidePosition" id="slidePosition" title="The position at which the slide motif should be placed."></td>
+<td></td></tr>
+</table>
+
+<input type="button" name="alert" value="Slide Tutorial" onClick="window.open('slidetutorial.html', '_blank')">
+
+</fieldset>
+</div>
+
+<h3>Reference Sequence</h3>
+<div class="usage">
+Specifying a reference sequence is optional. The reference sequence file should contain one or more reference sequences in FASTA format. The reference sequence is <em>not</em> used to generate the final merged sequence. Instead, the final merged sequence will be aligned with the reference sequence, and the alignment will be displayed on the output page for reference purposes. Aligning many long reference sequences may require some time. The fast <i><a href="http://www.drive5.com/muscle/" target="_blank">muscle</a></i> multiple sequence alignment program is used. Sequences in the alignment are ordered by similarity.<br><br>
+<table>
+<tr><td>Reference Sequence (FASTA format)</td><td><input type="file" name="referencesequencefile" id="referencesequencefile"></td></tr>
+</table>
+<input type="button" name="alert" value="Reference Tutorial" onClick="window.open('referencetutorial.html', '_blank')">
+</div>
+The files will take some time to upload. Please be patient after pressing the "Merge Fragments!" button below.
+<br><br>
+<input type="submit" name="submit;" value="Merge Fragments!"/>
+<input type="reset" name="reset" value="Reset Form Fields" onClick="resetform();return false"/>
+</form>
+<br>
+<!--#include virtual="/res/footer.html" -->
+
+<br>
+<div class="dotted_red">
+<p class="compact">
+&bull; ALL TOOLS ARE PROVIDED WITHOUT ANY WARRANTY &bull; CHECK ALL RESULTS CAREFULLY &bull;
+</p>
+<p class="compact">
+Queries or comments to ...
+<!-- Professor Anna Kramvis [Anna.Kramvis (@) wits.ac.za] -->
+</p>
+</div>
+<br>
+
+</body>
+</html>
+
